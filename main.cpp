@@ -131,7 +131,9 @@ int main(void)
 	// while (1)
 	// 	i++;
 	std::cout << "\n\t\tCheck Reverse\n";
+	first.print_all();
 	first.reverse();
 	first.print_all();
+	first.begin();
 	return (0);
 }

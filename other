@@ -13,3 +13,95 @@
 		// typedef	std::allocator_type::const_reference			const_reference;
 		// typedef	std::allocator_type::pointer					pointer;
 		// typedef	std::allocator_type::const_pointer				const_pointer;
+
+					// void unique()
+			// {
+
+			// };
+			// template <class BinaryPredicate>
+			// void unique (BinaryPredicate binary_pred)
+			// {
+
+			// };
+
+			// template <class Compare>
+			// void merge (list& x, Compare comp)
+			// {
+			// 	bool	if_changed = true;
+			// 	node	*tmp;
+
+			// 	if (&x != this)
+			// 	{
+			// 		std::cout << "start" << std::endl;
+			// 		tmp = tail->next;
+			// 		while (if_changed)
+			// 		{
+			// 			// if (tmp->next == tail)
+			// 			// {
+			// 			// 	_size = _size + x._size;
+			// 			// 	tmp->next
+			// 			// 	if_changed = false;
+			// 			// }
+			// 			// else 
+			// 			if (comp(tmp->next->data, x.tail->next->data) == false || tmp->next == tail)
+			// 			{
+			// 				node *second = tmp->next;
+			// 				std::cout << tmp->data << std::endl;
+			// 				std::cout << second->data << std::endl;
+			// 				_size = _size + x._size;
+			// 				tmp->next = x.tail->next;
+			// 				x.tail->next->prev = tmp;
+			// 				second->prev = x.tail->prev;
+			// 				x.tail->prev->next = second;
+			// 				second->prev = x.tail->prev;
+			// 				if_changed = false;
+			// 			}
+			// 			else
+			// 				tmp = tmp->next;
+			// 		}
+			// 		x.tail->prev = x.tail;
+			// 		x.tail->next = x.tail;
+			// 		x._size = 0;
+			// 	}
+			// 	//удалить tail
+			// };
+
+			// void merge (list& x)
+			// {
+			// 	merge(x, my_comp);
+			// };
+
+			// template <class Compare>
+			// void sort (Compare comp)
+			// {
+			// 	node	*tmp = tail->next;
+			// 	bool	swapped = true;
+
+			// 	while (swapped)
+			// 	{
+			// 		tmp = tail->next;
+			// 		swapped = false;
+			// 		while (tmp != tail)
+			// 		{
+			// 			if (tmp->next != tail && comp(tmp->data, tmp->next->data) == false)
+			// 			{
+			// 				node *tmp2;
+			// 				tmp2 = tmp->next;
+			// 				tmp2->next->prev = tmp;
+			// 				tmp->prev->next = tmp2;
+			// 				tmp->next = tmp2->next;
+			// 				tmp2->next = tmp;
+			// 				tmp2->prev = tmp->prev;
+			// 				tmp->prev = tmp2;
+			// 				swapped = true;
+			// 			}
+			// 			else
+			// 				tmp = tmp->next;
+			// 		}
+			// 	}
+			// };
+
+			// void sort()
+			// {
+			// 	this->sort(my_comp);
+			// };

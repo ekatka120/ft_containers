@@ -15,9 +15,6 @@ namespace ft
 		typedef	T							value_type;
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
-        
-
-
 		private:
 			class node
 			{
@@ -39,10 +36,9 @@ namespace ft
 					return (false);
 			};
 
-        public:
 
 			node 				*tail;
-
+		public:
 			//CONSTRUCTOR
 
 			explicit list (const allocator_type& alloc = allocator_type())
@@ -53,8 +49,6 @@ namespace ft
 				tail->next = tail;
 				tail->data = 0;
 				_size = 0;
-				//сделать итератор на tail
-				//tail_it = iterator(tail);
 			};
 			explicit list (size_type n, const value_type& val = value_type(),
                 const allocator_type& alloc = allocator_type())
@@ -67,8 +61,6 @@ namespace ft
 				_size = 0;
 				for (int i = 0; i != n; i++)
 					push_back(val);
-				//как мы засовывваем именно копию?
-				//each element is a copy of val
 			};
 			template <class InputIterator>
 			list (InputIterator first, InputIterator last,
@@ -81,9 +73,6 @@ namespace ft
 				tail->data = 0;
 				_size = 0;
 				std::cout << "\nIterator constructor is called!\n";
-				//std::cout << first;
-				// for (;first != last; first++)
-				// 	push_back((*first));
 			};
 			list (const list& x)
 			{
@@ -100,12 +89,10 @@ namespace ft
 					push_back(tmp->data);
 			};
 
-			//DESTRUCTOR
 			~list()
 			{
 
 			};
-			//PUSHES
 
             void push_back (const T& val)
             {
@@ -274,114 +261,71 @@ namespace ft
 						tmp = tmp->next;
 				}
 			};
-
 			void reverse()
 			{
-				node *tmp = tail->next->next;
-				node *tmp_tail = tail; 	
+				node *tmp = tail->next;
+				node *tmp_new_next;
+				
 				while (tmp != tail)
 				{
-					node *next = tmp->next;
-					std::swap(tmp->next, tmp->prev);
-					tmp = next;
+					tmp_new_next = tmp->next;
+					tmp->next = tmp->prev;
+					tmp->prev = tmp_new_next;
+					tmp = tmp->prev;
 				}
-				tail->prev->next = tmp_tail;
+				tmp_new_next = tail->next;
+				tail->next = tail->prev;
+				tail->prev = tmp_new_next;	
 			};
 
+		//ITERATORS
 
+			class my_iterator
+			{
+				protected:
+					node    *it_ptr;
+				public:
+					my_iterator(node *ptr)
+					{
+						it_ptr = ptr;
+						std::cout << "Constructor of my_iterator is called!\n";
+					};
+					friend class list<T>;
+			};
 
+			typedef class iterator : public my_iterator
+			{
+                public:
+                    iterator(node *ptr) : my_iterator(ptr)
+                    {
+                        std::cout << "Constructor of iterator is called!\n";
+                    };
+					T	operator*()
+					{
+						return(this->it_ptr->data);
+					};
+					T	operator*()
+					{
+						return(this->it_ptr->data);
+					};
+					iterator &operator++()
+					{
+						this->it_ptr = this->it_ptr->next;
+						return (*this);
+					};
+					iterator &operator--()
+					{
+						this->it_ptr = this->it_ptr->next;
+						return (*this);
+					};
+			}  iterator;
 
-			// void unique()
-			// {
-
-			// };
-			// template <class BinaryPredicate>
-			// void unique (BinaryPredicate binary_pred)
-			// {
-
-			// };
-
-			// template <class Compare>
-			// void merge (list& x, Compare comp)
-			// {
-			// 	bool	if_changed = true;
-			// 	node	*tmp;
-
-			// 	if (&x != this)
-			// 	{
-			// 		std::cout << "start" << std::endl;
-			// 		tmp = tail->next;
-			// 		while (if_changed)
-			// 		{
-			// 			// if (tmp->next == tail)
-			// 			// {
-			// 			// 	_size = _size + x._size;
-			// 			// 	tmp->next
-			// 			// 	if_changed = false;
-			// 			// }
-			// 			// else 
-			// 			if (comp(tmp->next->data, x.tail->next->data) == false || tmp->next == tail)
-			// 			{
-			// 				node *second = tmp->next;
-			// 				std::cout << tmp->data << std::endl;
-			// 				std::cout << second->data << std::endl;
-			// 				_size = _size + x._size;
-			// 				tmp->next = x.tail->next;
-			// 				x.tail->next->prev = tmp;
-			// 				second->prev = x.tail->prev;
-			// 				x.tail->prev->next = second;
-			// 				second->prev = x.tail->prev;
-			// 				if_changed = false;
-			// 			}
-			// 			else
-			// 				tmp = tmp->next;
-			// 		}
-			// 		x.tail->prev = x.tail;
-			// 		x.tail->next = x.tail;
-			// 		x._size = 0;
-			// 	}
-			// 	//удалить tail
-			// };
-
-			// void merge (list& x)
-			// {
-			// 	merge(x, my_comp);
-			// };
-
-			// template <class Compare>
-			// void sort (Compare comp)
-			// {
-			// 	node	*tmp = tail->next;
-			// 	bool	swapped = true;
-
-			// 	while (swapped)
-			// 	{
-			// 		tmp = tail->next;
-			// 		swapped = false;
-			// 		while (tmp != tail)
-			// 		{
-			// 			if (tmp->next != tail && comp(tmp->data, tmp->next->data) == false)
-			// 			{
-			// 				node *tmp2;
-			// 				tmp2 = tmp->next;
-			// 				tmp2->next->prev = tmp;
-			// 				tmp->prev->next = tmp2;
-			// 				tmp->next = tmp2->next;
-			// 				tmp2->next = tmp;
-			// 				tmp2->prev = tmp->prev;
-			// 				tmp->prev = tmp2;
-			// 				swapped = true;
-			// 			}
-			// 			else
-			// 				tmp = tmp->next;
-			// 		}
-			// 	}
-			// };
-
-			// void sort()
-			// {
-			// 	this->sort(my_comp);
-			// };
+      		iterator begin()
+			{
+				iterator it(tail->next);
+				std::cout << "Ha-ha, iterator\n";
+				return (it); 
+			};
 
             void	print_all()
             {
@@ -397,17 +341,6 @@ namespace ft
                 }
                 std::cout << "\n";
             };
-			class my_iterator
-			{
-				protected:
-					node    *it_ptr;
-				public:
-					my_iterator(node	*tmp)
-					{
-						std::cout << "Constructor of my iterator is called!\n";
-						it_ptr = tmp;
-					};
-					friend class list<T>;
-			};
+
 	};
 }

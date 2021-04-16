@@ -11,6 +11,10 @@ iostream
 -
 
 /Users/dskittri/Desktop/ft_containers/main.cpp
+iostream
+-
+list
+-
 list.hpp
 /Users/dskittri/Desktop/ft_containers/list.hpp
 
