@@ -85,6 +85,7 @@ int main(void)
 	std::cout << "\n\t\tCheck Max size\n";
 	std::cout << "\nMax size: " << first.max_size() << "\n";
 	std::list<int> original;
+
 	std::cout << "\nMax size: " << original.max_size() << "\n";
 
 	std::cout << "\n\t\tCheck Sort\n";
@@ -134,9 +135,112 @@ int main(void)
 	first.print_all();
 	first.reverse();
 	first.print_all();
-	std::cout << "\n\t\tCheck Iterators\n";
+	std::cout << "\n\t\tCheck Iterator iter++\n";
 	ft::list<int>::iterator iter = first.begin();
+//	ft::list<int>::iterator iter;
+	// iter = first.begin();
 	std::cout << *iter << std::endl;
-	return (0);
-	
+	iter++;
+	while (*iter != *first.begin())
+	{
+		std::cout << *iter << std::endl;
+		iter++;
+	}
+	std::cout << "\n\t\tCheck Iterator ++iter\n";
+	iter = first.begin();
+	std::cout << *iter << std::endl;
+	iter++;
+	while (*iter != *first.begin())
+	{
+		std::cout << *iter << std::endl;
+		++iter;
+	}
+	std::cout << "\n\t\tCheck Iterator --iter\n";
+	iter = first.begin();
+	iter--;
+	iter--;
+	while (*iter != *first.begin())
+	{
+		std::cout << *iter << std::endl;
+		iter--;
+	}
+	std::cout << *iter << std::endl;
+	std::cout << "\n\t\tCheck Iterator iter--\n";
+	iter = first.begin();
+	--iter;
+	iter--;
+	while (*iter != *first.begin())
+	{
+		std::cout << *iter << std::endl;
+		--iter;
+	}
+	std::cout << *iter << std::endl;
+	std::cout << "\n\t\tCheck Iterator *iter++\n";
+	iter = first.begin();
+	//std::cout << "\nTwo iterators that compare equal, keep comparing equal after being both increased (*a++)\n";
+	std::cout << "non-original list begin " << *iter << std::endl;	
+	std::cout << "non-original list begin " << *iter++ << std::endl;
+	std::cout << "non-original list begin " << *iter << std::endl;
+	original.clear();
+	original.push_back(0);
+	original.push_back(1);
+	original.push_back(2);
+	original.push_back(3);
+	std::list<int>::iterator list_iter_original = original.begin();
+	std::cout << "original list begin " << *list_iter_original << std::endl;
+	std::cout << "original list begin " << *list_iter_original++ << std::endl;
+	std::cout << "original list begin " << *list_iter_original << std::endl;
+
+	std::cout << "\n\t\tCheck == AND != \n";
+	std::cout << "\nif (iter==iter) -> ";
+	if (iter==iter)
+		std::cout << "TRUE\n";
+	else
+		std::cout << "FALSE\n";
+	std::cout << "if (iter!=iter) -> ";
+	if (iter!=iter)
+		std::cout << "TRUE\n";
+	else
+		std::cout << "FALSE\n";
+
+	std::cout << "\n\t\tCheck Const Iterator\n";	
+	ft::list<int>::const_iterator const_iter = first.begin();
+	std::cout << "\n*const_iter\n";
+	std::cout << *const_iter << std::endl;
+	std::cout << "const_iter++ && *const_iter\n";
+	const_iter++;
+	std::cout << *const_iter << std::endl;
+
+	std::cout << "\n\t\tCheck BEGIN/END\n";
+	ft::list<int>::iterator begin = first.begin();
+	std::cout << "first elem " << *begin << std::endl;
+	begin = first.end();
+	std::cout << "last  elem " << *begin << std::endl;
+
+	std::cout << "\n\t\tCheck CONST BEGIN/END\n";
+	ft::list<int>::const_iterator c_begin = first.begin();
+	std::cout << "first elem " << *c_begin << std::endl;
+	c_begin = first.end();
+	std::cout << "last  elem " << *c_begin << std::endl;
+
+	std::cout << "\n\t\tCheck Reverse Iterator\n";
+	first.print_all();
+	std::cout << "\nCycle with plusing reverse iterator\n";	
+	ft::list<int>::reverse_iterator rev_iter = first.rbegin();
+	while (*rev_iter != *(first.begin()))
+	{
+		std::cout << *rev_iter << "\t";
+		rev_iter++;
+	}
+	std::cout << *rev_iter << std::endl;
+	std::cout << "\n\t\tCheck Erase\n";
+	std::cout << "remove last iterator\n";
+	first.print_all();
+	first.erase(first.end());
+	std::cout << "first.erase(first.end());\n";
+	first.print_all();
+	std::cout << "remove all, except last\n";
+	first.erase(first.begin(), first.end());
+	first.print_all();
+	// return (0);	
 }

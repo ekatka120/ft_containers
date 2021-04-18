@@ -15,6 +15,9 @@ namespace ft
 		typedef	T							value_type;
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
+		typedef	typename allocator_type::reference					reference;
+		typedef	typename allocator_type::const_reference			const_reference;
+
 		private:
 			class node
 			{
@@ -207,6 +210,8 @@ namespace ft
 					pop_back();
 			};
 
+
+
 			bool empty() const
 			{
 				if (_size == 0)
@@ -259,7 +264,7 @@ namespace ft
 					}
 					else
 						tmp = tmp->next;
-				}
+				} 
 			};
 			void reverse()
 			{
@@ -284,11 +289,34 @@ namespace ft
 			{
 				protected:
 					node    *it_ptr;
+					node	*get_node()
+					{
+						return (it_ptr);
+					};
 				public:
+					my_iterator()
+					{
+						it_ptr = NULL;
+					};
 					my_iterator(node *ptr)
 					{
 						it_ptr = ptr;
-						std::cout << "Constructor of my_iterator is called!\n";
+					};
+					T	&operator*() const
+					{
+						return(this->it_ptr->data);
+					};
+					T *operator->() const
+					{
+						return (&(this->it_ptr->_data));
+					};
+					bool operator==(const my_iterator &y)
+					{
+						return (*this).it_ptr == y.it_ptr;
+					};
+					bool operator!=(const my_iterator &y)
+					{
+						return !((*this).it_ptr == y.it_ptr);
 					};
 					friend class list<T>;
 			};
@@ -296,14 +324,16 @@ namespace ft
 			typedef class iterator : public my_iterator
 			{
                 public:
-                    iterator(node *ptr) : my_iterator(ptr)
+					// CONSTRUCTORS
+					iterator() : my_iterator()
+					{};
+					iterator(node *ptr) : my_iterator(ptr)
+					{};
+					iterator(const iterator& it)
                     {
-                        std::cout << "Constructor of iterator is called!\n";
+						this->it_ptr = it.it_ptr;
                     };
-					T	operator*()
-					{
-						return(this->it_ptr->data);
-					};
+					// OVERLOADING
 					iterator &operator++()
 					{
 						this->it_ptr = this->it_ptr->next;
@@ -311,7 +341,7 @@ namespace ft
 					};
 					iterator &operator--()
 					{
-						this->it_ptr = this->it_ptr->next;
+						this->it_ptr = this->it_ptr->prev;
 						return (*this);
 					};
 					iterator operator++(int)
@@ -319,22 +349,162 @@ namespace ft
 						iterator old( *this );
 						++(*this);
 						return old;
-					}
+					};
 					iterator operator--(int)
 					{
 						iterator old( *this );
 						--(*this);
 						return old;
-					}
+					};
+					iterator& operator=(const iterator& rhs) {
+						this->it_ptr = rhs.it_ptr;
+						return *this;
+					};
 			}  		iterator;
+			typedef class const_iterator : public iterator
+			{
+                public:
+					// CONSTRUCTORS
+					const_iterator() : my_iterator()
+					{};
+					const_iterator(node *ptr) : my_iterator(ptr)
+					{};
+					const_iterator(const iterator& it)
+                    {
+						this->it_ptr = it.it_ptr;
+                    };
 
-      		iterator begin()
+			}  		const_iterator;
+			typedef class reverse_iterator : public my_iterator
+			{
+				public:
+					// CONSTRUCTORS
+					reverse_iterator() : my_iterator()
+					{};
+					reverse_iterator(node *ptr) : my_iterator(ptr)
+					{};
+					reverse_iterator(const iterator& it)
+                    {
+						this->it_ptr = it.it_ptr;
+                    };
+					// OVERLOADING
+					reverse_iterator &operator++()
+					{
+						this->it_ptr = this->it_ptr->prev;
+						return (*this);
+					};
+					reverse_iterator &operator--()
+					{
+						this->it_ptr = this->it_ptr->next;
+						return (*this);
+					};
+					reverse_iterator operator++(int)
+					{
+						reverse_iterator old( *this );
+						++(*this);
+						return old;
+					};
+					reverse_iterator operator--(int)
+					{
+						reverse_iterator old( *this );
+						--(*this);
+						return old;
+					};
+					reverse_iterator& operator=(const reverse_iterator& rhs) {
+						this->it_ptr = rhs.it_ptr;
+						return *this;
+					};
+			}  		reverse_iterator;
+			
+			typedef class const_reverse_iterator : public reverse_iterator
+			{
+                public:
+					// CONSTRUCTORS
+					const_reverse_iterator() : my_iterator()
+					{};
+					const_reverse_iterator(node *ptr) : my_iterator(ptr)
+					{};
+					const_reverse_iterator(const iterator& it)
+                    {
+						this->it_ptr = it.it_ptr;
+                    };
+
+			}  		const_reverse_iterator;
+      		
+			iterator begin()
 			{
 				iterator it(tail->next);
-				std::cout << "Ha-ha, iterator\n";
 				return (it); 
 			};
+			const_iterator begin() const
+			{
+				const_iterator it(tail->next);
+				return (it); 				
+			};
+      		iterator end()
+			{
+				iterator it(tail->prev);
+				return (it); 				
+			};
+			const_iterator end() const
+			{
+				const_iterator it(tail->prev);
+				return (it); 				
+			};
+      		reverse_iterator rbegin()
+			{
+				reverse_iterator it(tail->prev);
+				return (it); 				
+			};
+			const_reverse_iterator rbegin() const
+			{
+				const_reverse_iterator it(tail->prev);
+				return (it); 				
+			};
+			reverse_iterator rend()
+			{
+				reverse_iterator it(tail->next);
+				return (it); 					
+			};
+			const_reverse_iterator rend() const
+			{
+				const_reverse_iterator it(tail->next);
+				return (it); 				
+			};
+			iterator erase (iterator position)
+			{
+				node		*tmp;
+				iterator	next_to_tmp;
 
+				next_to_tmp = position;
+				tmp = position.get_node();
+				if (tmp != tail && tmp != NULL)
+				{
+					next_to_tmp = position++;
+					tmp->prev->next = tmp->next;
+					tmp->next->prev = tmp->prev;
+					_size = _size - 1;
+					delete tmp;
+				}
+				return (next_to_tmp);
+			};
+			iterator erase (iterator first, iterator last)
+			{
+				iterator tmp;
+				for (tmp = first; tmp != last; tmp++)
+				{
+					//check for tail inside interval ->if it is, do nothing
+					if (tmp.get_node() == tail)
+						return (tmp);
+				}
+				for (tmp = first; tmp != last; tmp++)
+					erase(tmp);
+				return(tmp);
+			};
+			iterator insert (iterator position, const value_type& val)
+			{
+
+			};
             void	print_all()
             {
                 node *tmp = tail;
