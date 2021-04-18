@@ -304,10 +304,6 @@ namespace ft
 					{
 						return(this->it_ptr->data);
 					};
-					T	operator*()
-					{
-						return(this->it_ptr->data);
-					};
 					iterator &operator++()
 					{
 						this->it_ptr = this->it_ptr->next;
@@ -318,7 +314,19 @@ namespace ft
 						this->it_ptr = this->it_ptr->next;
 						return (*this);
 					};
-			}  iterator;
+					iterator operator++(int)
+					{
+						iterator old( *this );
+						++(*this);
+						return old;
+					}
+					iterator operator--(int)
+					{
+						iterator old( *this );
+						--(*this);
+						return old;
+					}
+			}  		iterator;
 
       		iterator begin()
 			{

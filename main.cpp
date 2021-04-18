@@ -134,6 +134,9 @@ int main(void)
 	first.print_all();
 	first.reverse();
 	first.print_all();
-	first.begin();
+	std::cout << "\n\t\tCheck Iterators\n";
+	ft::list<int>::iterator iter = first.begin();
+	std::cout << *iter << std::endl;
 	return (0);
+	
 }
