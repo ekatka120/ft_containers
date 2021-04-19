@@ -16,6 +16,7 @@ namespace ft
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
 		typedef	typename allocator_type::reference					reference;
+		// typedef T&	reference;
 		typedef	typename allocator_type::const_reference			const_reference;
 
 		private:
@@ -501,9 +502,70 @@ namespace ft
 					erase(tmp);
 				return(tmp);
 			};
+
 			iterator insert (iterator position, const value_type& val)
 			{
-
+				node	*next = position.get_node();
+				node	*new_node = new node;
+				node	*prev = next->prev;
+				iterator position_new = position;
+				
+				new_node->data = val;
+				prev->next = new_node;
+				new_node->prev = prev;
+				new_node->next = next;
+				next->prev = new_node;
+				_size = _size + 1;
+				position_new--;
+				return (position_new);
+			};
+			void insert (iterator position, size_type n, const value_type& val)
+			{
+				iterator position_new;
+				
+				for (int i = 0; i != n; i++)
+					position_new = insert (position, val);
+			};
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last,
+				typename enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type * = 0)
+			{
+				iterator tmp;
+				last--;
+				for (tmp = position; last != first; last--)
+				{
+					tmp = insert(tmp, *last);
+				}
+				tmp = insert(tmp, *last);
+			};
+			template <class InputIterator>
+			void assign (InputIterator first, InputIterator last, typename enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type * = 0)
+			{
+				this->clear();
+				for (; first != last; first++)
+					push_back(*first);
+			};	
+			void assign (size_type n, const value_type& val)
+			{
+				this->clear();
+				for (size_type i = 0; i != n; i++)
+					push_back(val);
+			};
+     		reference front()
+			{
+				return (tail->next->data);
+			};
+			const_reference front() const
+			{
+				return (tail->next->data);
+			};
+			reference back()
+			{
+				return (tail->prev->data);
+			};
+			const_reference back() const
+			{
+				return (tail->prev->data);
 			};
             void	print_all()
             {
