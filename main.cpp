@@ -278,5 +278,29 @@ int main(void)
 	std::cout << "\n\t\tCheck Reference\n";
 	std::cout << "\nreference to front\t" << first.front() << std::endl;
 	std::cout << "reference to back\t" << first.back() << std::endl;
+	std::cout << "\n\t\tCheck Slice 1\n";
+	first.print_all();
+	second.print_all();
+	first.splice(first.end(), second);
+	std::cout << "\nfirst.splice(first.end(), second);\n";
+	first.print_all();
+	second.print_all();
+	std::cout << "\n\t\tCheck Slice 2\n";
+	second.push_back(23);
+	second.push_back(24);
+	second.push_back(25);
+	first.print_all();
+	second.print_all();
+	first.splice(first.end(), second, second.begin());
+	first.print_all();
+	second.print_all();
+	std::cout << "\n\t\tCheck Slice 3\n";
+	first.print_all();
+	second.print_all();
+	first.splice(first.end(), second, second.begin(), second.end());
+	first.print_all();
+	second.print_all();
+	std::cout << "\n\t\tCheck Unique\n";
+	
 	// return (0);	
 }

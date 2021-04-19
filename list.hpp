@@ -40,7 +40,10 @@ namespace ft
 					return (false);
 			};
 
-
+			node 				*get_tail()
+			{
+				return (tail);
+			};
 			node 				*tail;
 		public:
 			//CONSTRUCTOR
@@ -566,6 +569,63 @@ namespace ft
 			const_reference back() const
 			{
 				return (tail->prev->data);
+			};
+
+			void splice (iterator position, list& x)
+			{
+				node *next = position.get_node();
+				node *prev = next->prev;
+
+				prev->next = x.begin().get_node();
+				(x.begin()).get_node()->prev = prev;
+				x.end().get_node()->next = next;
+				next->prev = x.end().get_node();
+				_size = _size + x.size();
+				x._size = 0;
+				x.tail->next = x.tail;
+				x.tail->prev = x.tail;
+			};
+			//2) Transfers the element pointed to by it from other into *this. The element is inserted before the element pointed to by pos.
+			void splice (iterator position, list& x, iterator i)
+			{
+				node *next = position.get_node();
+				node *prev = next->prev;
+				node *new_node = i.get_node();
+				if (new_node != x.tail)
+				{
+					new_node->prev->next = new_node->next;
+					new_node->next->prev = new_node->prev;
+					prev->next = new_node;
+					new_node->prev = prev;
+					next->prev = new_node;
+					new_node->next = next;
+					_size = _size + 1;
+					x._size = x._size + 1;
+				}
+			};
+			//3) Transfers the elements in the range [first, last) from other into *this. 
+			//The elements are inserted before the element pointed to by pos. The behavior is undefined if pos is an iterator in the range [first,last).
+			void splice (iterator position, list& x, iterator first, iterator last)
+			{
+				node *next = position.get_node();
+				node *prev = next->prev;
+				bool	stop = false;
+				int		len = 0;
+
+				for (iterator iter_first = first; iter_first != last; iter_first++)
+					len++;
+				
+				node	*first_node = first.get_node();
+				node	*last_node = (last.get_node())->prev;
+
+				first_node->prev->next = last_node->next;
+				last_node->next->prev = first_node->prev;
+				prev->next = first_node;
+				first_node->prev = prev;
+				next->prev = first_node;
+				first_node->next = next;
+				_size = _size + len;
+				x._size = x._size - len;
 			};
             void	print_all()
             {
