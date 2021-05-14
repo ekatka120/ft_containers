@@ -300,7 +300,38 @@ int main(void)
 	first.splice(first.end(), second, second.begin(), second.end());
 	first.print_all();
 	second.print_all();
-	std::cout << "\n\t\tCheck Unique\n";
-	
+	std::cout << "\n\t\tCheck Merge\n";
+	first.clear();
+	second.clear();
+
+	first.push_back(0);
+	first.push_back(1);
+	first.push_back(3);
+	first.push_back(5);
+	first.push_back(9);
+
+	second.push_back(2);
+	second.push_back(4);
+	second.push_back(6);
+	second.push_back(7);
+	second.push_back(8);
+	first.print_all();
+	second.print_all();
+	first.merge(second);
+    std::cout << "merged: \n";
+	first.print_all();
+	second.print_all();
+
+	std::cout << "\n\t\tCheck Sort\n";
+	first.clear();
+
+	first.push_back(0);
+	first.push_back(3);
+	first.push_back(9);
+	first.push_back(5);
+	first.push_back(1);
+	first.print_all();
+	first.sort();
+	first.print_all();
 	// return (0);	
 }

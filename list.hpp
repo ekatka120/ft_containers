@@ -600,7 +600,7 @@ namespace ft
 					next->prev = new_node;
 					new_node->next = next;
 					_size = _size + 1;
-					x._size = x._size + 1;
+					x._size = x._size - 1;
 				}
 			};
 			//3) Transfers the elements in the range [first, last) from other into *this. 
@@ -626,6 +626,119 @@ namespace ft
 				first_node->next = next;
 				_size = _size + len;
 				x._size = x._size - len;
+			};
+			template <class Compare>
+  			void merge (list& other, Compare comp)
+			{
+				if (&other != this)
+				{
+					iterator tail_other = other.end();
+					iterator tail_my = this->end();
+					iterator my_iter = this->begin();
+					iterator other_iter = other.begin();
+					iterator tmp;
+					tail_other++;
+					tail_my++;
+
+					while (true)
+					{
+						if (comp(*my_iter, *other_iter) == true)
+							my_iter++;
+						else
+						{
+							tmp = other_iter;
+							tmp++;
+							this->splice(my_iter, other, other_iter);
+							other_iter = tmp;
+							if (other_iter == tail_other)
+								break;
+						}
+					}
+				}
+			};
+			void merge (list& other)
+			{
+				merge(other, my_comp);
+			};
+			template <class Compare>
+  			node *merging_for_sort(node *head, node *second, Compare comp)
+			{
+				node *head_return = head;
+				node *head_prev;
+
+				if (head == NULL)
+					return (second);
+				if (second == NULL)
+					return (head);
+				if (comp(head, second))
+					head = head->next;
+				else
+				{
+					head_return = second;
+					second = second->next;
+					head_return->next = head;
+				}
+				head_prev = head_return;
+				while (head != NULL && second != NULL)
+				{
+					if (comp(head, second))
+					{
+						head_prev = head;
+						head = head->next;
+					}
+					else
+					{
+						head_prev->next = second;
+						second = second->next;
+						head_prev->next = head;
+					}
+				}
+				return (head_return);
+			};
+			node *split_sort(node *head, size_t size)
+			{
+				node *second = head;
+				while (size > 1)
+				{
+					second = second->next;
+					size--;
+				}
+				node *tmp = second->next;
+				second->next = NULL;
+				return (tmp);
+			};
+			template <class Compare>
+			node *merge_sort(node *head, size_t size, Compare comp)
+			{
+				if (size < 2)
+					return(head);
+				node *second = split_sort(head, size/2);
+				head = merge_sort(head, size/2, comp);
+				second = merge_sort(second, size/2, comp);
+				return (merging_for_sort(head, second, comp));
+			};
+			void sort()
+			{
+				node 	*original_tail = tail;
+				node	*result;
+				size_t		original_size = _size;
+
+				tail->prev->next = NULL;
+				result = merge_sort(tail->next, _size, my_comp);
+				tail->next = result;
+				while (result->next != NULL)
+					result = result->next;
+				result->next = tail;
+				tail->prev = result;
+				node *tmp;
+				result = tail->next;
+				result->prev = tail;
+				while (result != tail)
+				{
+					tmp = result;
+					result = result->next;
+					result->prev = tmp;
+				}
 			};
             void	print_all()
             {
