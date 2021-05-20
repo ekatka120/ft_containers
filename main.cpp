@@ -6,6 +6,9 @@ struct is_odd {
   bool operator() (const int& value) { return (value%2)==1; }
 };
 
+bool equal (int first, int second)
+{ return ( first == second ); }
+
 int main(void)
 {
 	ft::list<int>	first;
@@ -332,6 +335,19 @@ int main(void)
 	first.push_back(1);
 	first.print_all();
 	first.sort();
+	first.print_all();
+	std::cout << "\n\t\tCheck Unique\n";
+	first.push_back(9);
+	first.push_back(9);
+	first.push_back(9);
+	first.push_back(5);
+	first.push_back(5);
+	first.push_back(9);
+	first.push_back(5);
+	first.push_back(5);
+	first.push_back(5);
+	first.print_all();
+	first.unique(equal);
 	first.print_all();
 	// return (0);	
 }

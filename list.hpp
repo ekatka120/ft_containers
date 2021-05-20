@@ -661,83 +661,77 @@ namespace ft
 				merge(other, my_comp);
 			};
 			template <class Compare>
-  			node *merging_for_sort(node *head, node *second, Compare comp)
+			void sort (Compare comp)
 			{
-				node *head_return = head;
-				node *head_prev;
+				node	*tmp = tail->next;
+				bool	swapped = true;
 
-				if (head == NULL)
-					return (second);
-				if (second == NULL)
-					return (head);
-				if (comp(head, second))
-					head = head->next;
-				else
+				while (swapped)
 				{
-					head_return = second;
-					second = second->next;
-					head_return->next = head;
-				}
-				head_prev = head_return;
-				while (head != NULL && second != NULL)
-				{
-					if (comp(head, second))
+					tmp = tail->next;
+					swapped = false;
+					while (tmp != tail)
 					{
-						head_prev = head;
-						head = head->next;
-					}
-					else
-					{
-						head_prev->next = second;
-						second = second->next;
-						head_prev->next = head;
+						if (tmp->next != tail && comp(tmp->data, tmp->next->data) == false)
+						{
+							node *tmp2;
+							tmp2 = tmp->next;
+							tmp2->next->prev = tmp;
+							tmp->prev->next = tmp2;
+							tmp->next = tmp2->next;
+							tmp2->next = tmp;
+							tmp2->prev = tmp->prev;
+							tmp->prev = tmp2;
+							swapped = true;
+						}
+						else
+							tmp = tmp->next;
 					}
 				}
-				return (head_return);
-			};
-			node *split_sort(node *head, size_t size)
-			{
-				node *second = head;
-				while (size > 1)
-				{
-					second = second->next;
-					size--;
-				}
-				node *tmp = second->next;
-				second->next = NULL;
-				return (tmp);
-			};
-			template <class Compare>
-			node *merge_sort(node *head, size_t size, Compare comp)
-			{
-				if (size < 2)
-					return(head);
-				node *second = split_sort(head, size/2);
-				head = merge_sort(head, size/2, comp);
-				second = merge_sort(second, size/2, comp);
-				return (merging_for_sort(head, second, comp));
 			};
 			void sort()
 			{
-				node 	*original_tail = tail;
-				node	*result;
-				size_t		original_size = _size;
+				this->sort(my_comp);
+			};
+			void unique()
+			{
+				node	*tmp_next;
+				node	*tmp = this->tail->next;
+				node	*tail = this->tail;
 
-				tail->prev->next = NULL;
-				result = merge_sort(tail->next, _size, my_comp);
-				tail->next = result;
-				while (result->next != NULL)
-					result = result->next;
-				result->next = tail;
-				tail->prev = result;
-				node *tmp;
-				result = tail->next;
-				result->prev = tail;
-				while (result != tail)
+				while (tmp->next != tail)
 				{
-					tmp = result;
-					result = result->next;
-					result->prev = tmp;
+					tmp_next = tmp->next;
+					if (tmp->data == tmp_next->data)
+					{
+						_size = _size - 1;
+						tmp->next = tmp_next->next;
+						tmp_next->next->prev = tmp;
+						delete tmp_next;
+					}
+					else
+						tmp = tmp->next;
+				}
+			};
+			template <class BinaryPredicate>
+			void unique (BinaryPredicate binary_pred)
+			{
+				node	*tmp_next;
+				node	*tmp = this->tail->next;
+				node	*tail = this->tail;
+				
+				while (tmp->next != tail)
+				{
+					tmp_next = tmp->next;
+					if (binary_pred(tmp->data, tmp_next->data))
+					{
+						_size = _size - 1;
+						tmp->next = tmp_next->next;
+						tmp_next->next->prev = tmp;
+						delete tmp_next;
+					}
+					else
+						tmp = tmp->next;
 				}
 			};
             void	print_all()
