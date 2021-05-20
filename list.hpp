@@ -734,6 +734,19 @@ namespace ft
 						tmp = tmp->next;
 				}
 			};
+			list& operator= (const list& x)
+			{
+				while (this->_size > 0)
+					this->pop_back();
+				node *tmp = x.tail->next;
+				while (tmp != x.tail)
+				{
+					this->push_back(tmp->data);
+					tmp = tmp->next;
+				}
+				return (*this);
+			};
+
             void	print_all()
             {
                 node *tmp = tail;

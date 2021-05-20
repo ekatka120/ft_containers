@@ -349,5 +349,16 @@ int main(void)
 	first.print_all();
 	first.unique(equal);
 	first.print_all();
+	std::cout << "\n\t\tCheck Operation =\n";
+	std::cout << "first.print_all();\n";
+	first.print_all();
+	std::cout << "second.print_all();\n";
+	second.print_all();
+	second = first;
+	std::cout << "second = first;\n\n";
+	std::cout << "first.print_all();\n";
+	first.print_all();
+	std::cout << "second.print_all();\n";
+	second.print_all();
 	// return (0);	
 }
