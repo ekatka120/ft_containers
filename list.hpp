@@ -2,7 +2,6 @@
 
 namespace ft
 {
-	
 	template<bool B, class T = void>
 	struct enable_if {};
 	template<class T>
@@ -11,13 +10,12 @@ namespace ft
 	template < class T, class Alloc = std::allocator<T> >
 	class list
 	{
-		typedef	Alloc						allocator_type;
-		typedef	T							value_type;
-		typedef	ptrdiff_t					difference_type;
-		typedef	size_t						size_type;
-		typedef	typename allocator_type::reference					reference;
-		// typedef T&	reference;
-		typedef	typename allocator_type::const_reference			const_reference;
+		typedef	Alloc										allocator_type;
+		typedef	T											value_type;
+		typedef	ptrdiff_t									difference_type;
+		typedef	size_t										size_type;
+		typedef	typename allocator_type::reference			reference;
+		typedef	typename allocator_type::const_reference	const_reference;
 
 		private:
 			class node
