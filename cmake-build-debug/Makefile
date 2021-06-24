@@ -67,10 +67,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/dskittri/Desktop/ft_containers
+CMAKE_SOURCE_DIR = /Users/patutina/Desktop/42/ft_containers
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/dskittri/Desktop/ft_containers/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/patutina/Desktop/42/ft_containers/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/dskittri/Desktop/ft_containers/cmake-build-debug/CMakeFiles /Users/dskittri/Desktop/ft_containers/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/patutina/Desktop/42/ft_containers/cmake-build-debug/CMakeFiles /Users/patutina/Desktop/42/ft_containers/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/dskittri/Desktop/ft_containers/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/patutina/Desktop/42/ft_containers/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -142,32 +142,32 @@ ft_containers/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ft_containers.dir/build.make CMakeFiles/ft_containers.dir/build
 .PHONY : ft_containers/fast
 
-main.o: main.cpp.o
+main_list.o: main_list.cpp.o
 
-.PHONY : main.o
+.PHONY : main_list.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ft_containers.dir/build.make CMakeFiles/ft_containers.dir/main.cpp.o
-.PHONY : main.cpp.o
+main_list.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ft_containers.dir/build.make CMakeFiles/ft_containers.dir/main_list.cpp.o
+.PHONY : main_list.cpp.o
 
-main.i: main.cpp.i
+main_list.i: main_list.cpp.i
 
-.PHONY : main.i
+.PHONY : main_list.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ft_containers.dir/build.make CMakeFiles/ft_containers.dir/main.cpp.i
-.PHONY : main.cpp.i
+main_list.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ft_containers.dir/build.make CMakeFiles/ft_containers.dir/main_list.cpp.i
+.PHONY : main_list.cpp.i
 
-main.s: main.cpp.s
+main_list.s: main_list.cpp.s
 
-.PHONY : main.s
+.PHONY : main_list.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ft_containers.dir/build.make CMakeFiles/ft_containers.dir/main.cpp.s
-.PHONY : main.cpp.s
+main_list.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ft_containers.dir/build.make CMakeFiles/ft_containers.dir/main_list.cpp.s
+.PHONY : main_list.cpp.s
 
 # Help Target
 help:
@@ -178,9 +178,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ft_containers"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... main_list.o"
+	@echo "... main_list.i"
+	@echo "... main_list.s"
 .PHONY : help
 
 

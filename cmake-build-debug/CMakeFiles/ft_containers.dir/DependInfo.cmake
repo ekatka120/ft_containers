@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/dskittri/Desktop/ft_containers/main.cpp" "/Users/dskittri/Desktop/ft_containers/cmake-build-debug/CMakeFiles/ft_containers.dir/main.cpp.o"
+  "/Users/patutina/Desktop/42/ft_containers/main_list.cpp" "/Users/patutina/Desktop/42/ft_containers/cmake-build-debug/CMakeFiles/ft_containers.dir/main_list.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 

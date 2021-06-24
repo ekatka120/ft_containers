@@ -44,21 +44,19 @@ namespace ft
 			};
 			node 				*tail;
 		public:
-			//CONSTRUCTOR
-
+	        //Default constructor
 			explicit list (const allocator_type& alloc = allocator_type())
 			{
-				std::cout << "\nEmpty constructor is called!\n";
 				tail = new node;
 				tail->prev = tail;
 				tail->next = tail;
 				tail->data = 0;
 				_size = 0;
 			};
+            //Fill constructor
 			explicit list (size_type n, const value_type& val = value_type(),
                 const allocator_type& alloc = allocator_type())
 			{
-				std::cout << "\nTwo parametrs constructor is called!\n";
 				tail = new node;
 				tail->prev = tail;
 				tail->next = tail;
@@ -67,6 +65,7 @@ namespace ft
 				for (int i = 0; i != n; i++)
 					push_back(val);
 			};
+			//Range constructor
 			template <class InputIterator>
 			list (InputIterator first, InputIterator last,
 					const allocator_type& alloc = allocator_type(), typename enable_if<!std::numeric_limits<InputIterator>::is_specialized>::type * = 0)
@@ -77,26 +76,27 @@ namespace ft
 				tail->next = tail;
 				tail->data = 0;
 				_size = 0;
-				std::cout << "\nIterator constructor is called!\n";
+				for(;first != last; first++){
+                    push_back(*first);
+				}
 			};
+			//Copy constructor
 			list (const list& x)
 			{
-				std::cout << "\nCopy constructor is called!\n";
 				tail = new node;
 				tail->prev = tail;
 				tail->next = tail;
 				tail->data = 0;
 				_size = 0;
-				//удалить все, что было
-				//обнулить tail
-				node	*tmp = x.tail->next;
-				for (;tmp != x.tail; tmp = tmp->next)
-					push_back(tmp->data);
+                node	*tmp = x.tail->next;
+                for (;tmp != x.tail; tmp = tmp->next)
+                    push_back(tmp->data);
 			};
 
 			~list()
 			{
-
+			    clear();
+                delete tail;
 			};
 
             void push_back (const T& val)
@@ -119,6 +119,7 @@ namespace ft
                 tmp->next = tail;
                 tail->prev = tmp;
                 _size = _size + 1;
+                tail->data = _size;
             };			
 
 			void push_front (const value_type& val)
@@ -139,7 +140,8 @@ namespace ft
 				}
 				tmp->prev = tail;
 				tail->next = tmp;
-				_size = _size + 1;			
+				_size = _size + 1;
+                tail->data = _size;
 			};
 
 			void pop_front()
@@ -152,6 +154,7 @@ namespace ft
 					_size = _size - 1;
 					delete tmp;
 				}
+                tail->data = _size;
 			};
 			void pop_back()
 			{
@@ -162,7 +165,8 @@ namespace ft
 					tail->prev = tmp->prev;
 					_size = _size - 1;
 					delete tmp;
-				}				
+				}
+                tail->data = _size;
 			};
 
 			void swap (list& x)
@@ -191,6 +195,8 @@ namespace ft
 				x._size = _size;
 				next_tail_first->prev = x.tail;
 				prev_tail_first->next = x.tail;
+                tail->data = _size;
+                x.tail->data = x._size;
 			}
 			void resize (size_type n, value_type val = value_type())
 			{
@@ -248,6 +254,7 @@ namespace ft
 					else
 						tmp = tmp->next;
 				}
+                tail->data = _size;
 			};
 			template <class Predicate>
 			void remove_if (Predicate pred)//Нужно проверить
@@ -266,7 +273,8 @@ namespace ft
 					}
 					else
 						tmp = tmp->next;
-				} 
+				}
+                tail->data = _size;
 			};
 			void reverse()
 			{
@@ -422,11 +430,11 @@ namespace ft
 			{
                 public:
 					// CONSTRUCTORS
-					const_reverse_iterator() : my_iterator()
+					const_reverse_iterator() : reverse_iterator()
 					{};
-					const_reverse_iterator(node *ptr) : my_iterator(ptr)
+					const_reverse_iterator(node *ptr) : reverse_iterator(ptr)
 					{};
-					const_reverse_iterator(const iterator& it)
+					const_reverse_iterator(const reverse_iterator& it)
                     {
 						this->it_ptr = it.it_ptr;
                     };
@@ -436,24 +444,24 @@ namespace ft
 			iterator begin()
 			{
 				iterator it(tail->next);
-				return (it); 
+				return (it);
 			};
 			const_iterator begin() const
 			{
 				const_iterator it(tail->next);
-				return (it); 				
+				return (it);
 			};
       		iterator end()
 			{
-				iterator it(tail->prev);
+				iterator it(tail);
 				return (it); 				
 			};
 			const_iterator end() const
 			{
-				const_iterator it(tail->prev);
+				const_iterator it(tail);
 				return (it); 				
 			};
-      		reverse_iterator rbegin()
+            reverse_iterator rbegin()
 			{
 				reverse_iterator it(tail->prev);
 				return (it); 				
@@ -465,12 +473,12 @@ namespace ft
 			};
 			reverse_iterator rend()
 			{
-				reverse_iterator it(tail->next);
+				reverse_iterator it(tail);
 				return (it); 					
 			};
 			const_reverse_iterator rend() const
 			{
-				const_reverse_iterator it(tail->next);
+				const_reverse_iterator it(tail);
 				return (it); 				
 			};
 			iterator erase (iterator position)
@@ -486,8 +494,10 @@ namespace ft
 					tmp->prev->next = tmp->next;
 					tmp->next->prev = tmp->prev;
 					_size = _size - 1;
+					tail->data = tail->data - 1;
 					delete tmp;
 				}
+                tail->data = _size;
 				return (next_to_tmp);
 			};
 			iterator erase (iterator first, iterator last)
@@ -517,7 +527,9 @@ namespace ft
 				new_node->next = next;
 				next->prev = new_node;
 				_size = _size + 1;
+                tail->data = tail->data + 1;
 				position_new--;
+                tail->data = _size;
 				return (position_new);
 			};
 			void insert (iterator position, size_type n, const value_type& val)
@@ -582,6 +594,7 @@ namespace ft
 				x._size = 0;
 				x.tail->next = x.tail;
 				x.tail->prev = x.tail;
+                tail->data = _size;
 			};
 			//2) Transfers the element pointed to by it from other into *this. The element is inserted before the element pointed to by pos.
 			void splice (iterator position, list& x, iterator i)
@@ -599,6 +612,8 @@ namespace ft
 					new_node->next = next;
 					_size = _size + 1;
 					x._size = x._size - 1;
+                    x.tail->data = x._size;
+                    tail->data = _size;
 				}
 			};
 			//3) Transfers the elements in the range [first, last) from other into *this. 
@@ -624,6 +639,8 @@ namespace ft
 				first_node->next = next;
 				_size = _size + len;
 				x._size = x._size - len;
+                tail->data = _size;
+                x.tail->data = x._size;
 			};
 			template <class Compare>
   			void merge (list& other, Compare comp)
@@ -710,6 +727,7 @@ namespace ft
 					else
 						tmp = tmp->next;
 				}
+                tail->data = _size;
 			};
 			template <class BinaryPredicate>
 			void unique (BinaryPredicate binary_pred)
@@ -731,6 +749,7 @@ namespace ft
 					else
 						tmp = tmp->next;
 				}
+                tail->data = _size;
 			};
 			list& operator= (const list& x)
 			{
